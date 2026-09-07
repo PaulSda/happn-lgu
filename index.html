@@ -120,6 +120,8 @@
   .lnk{color:var(--lilac-deep);font-weight:700;text-decoration:none}.lnk:hover{text-decoration:underline}
   .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
   .del{background:none;border:none;color:#c25b8a;cursor:pointer;font-size:15px;padding:3px 7px;border-radius:7px}
+  .edit{background:none;border:none;cursor:pointer;font-size:14px;padding:3px 7px;border-radius:7px;margin-right:2px}
+  .edit:hover{background:var(--lilac-lt)}
   .del:hover{background:#fce4ee}
   .empty{text-align:center;color:var(--grey);padding:40px 10px;font-style:italic}
   .thumbs{display:flex;gap:5px;flex-wrap:wrap}
@@ -279,7 +281,7 @@
 
 <dialog id="dlg">
   <form method="dialog">
-    <div class="dhead"><span>Ajouter un contenu</span><button class="xbtn" value="cancel" type="submit">×</button></div>
+    <div class="dhead"><span id="dlgTitle">Ajouter un contenu</span><button class="xbtn" value="cancel" type="submit">×</button></div>
     <div class="dbody">
       <div><label>Créateur / Média (@)</label><input id="i_name" placeholder="@lartchimiste" required></div>
       <div><label>Ville</label><select id="i_city"><option>Paris</option><option>Lille</option><option>Lyon</option><option>Marseille</option><option>Bordeaux</option></select></div>
