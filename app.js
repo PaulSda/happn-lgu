@@ -1,5 +1,5 @@
 /* ===========================================================
-   happn x LGU — Suivi des contenus
+   happn x LGU - Suivi des contenus
    Base partagée temps réel (Supabase) + captures compressées
    =========================================================== */
 
@@ -52,14 +52,14 @@ async function fetchAll(){
     photos:Array.isArray(r.photos)?r.photos:(r.photos?JSON.parse(r.photos):[])
   }));
   render();
-  $('#savenote').textContent="✓ Synchronisé avec la base partagée — happn voit ces données en temps réel.";
+  $('#savenote').textContent="";
 }
 
 /* ---------- Local fallback (no DB) ---------- */
 function loadLocal(){
   try{const raw=localStorage.getItem('happn_lgu_local');if(raw)data=JSON.parse(raw);}catch(e){}
   render();
-  $('#savenote').textContent="Mode local : les données restent sur ce navigateur tant que la base n'est pas configurée.";
+  $('#savenote').textContent="";
 }
 function saveLocal(){try{localStorage.setItem('happn_lgu_local',JSON.stringify(data));}catch(e){}}
 
@@ -76,39 +76,49 @@ function render(){
   const creators=new Set(data.map(r=>(r.name||'').trim().toLowerCase())).size;
   const es=data.map(engag).filter(x=>x!=null);
   const avgEng=es.length?es.reduce((a,b)=>a+b,0)/es.length:0;
-  $('#kpis').innerHTML=[
-    ['Contenus',data.length,'posts trackés'],
+  const activity=[
+    ['Contenus publiés',data.length,'posts partagés'],
+    ['Créateurs actifs',creators,'ont publié'],
+    ['Villes couvertes',new Set(data.map(r=>r.city).filter(Boolean)).size+' / 5','en campagne'],
+    ['Contenus avec preuve',data.filter(r=>(r.photos||[]).length).length,'captures jointes'],
+  ];
+  $('#kpis').innerHTML=activity.map(k=>`<div class="kpi"><div class="lab">${k[0]}</div><div class="val">${k[1]}</div><div class="sub">${k[2]||''}</div></div>`).join('');
+
+  const perf=[
     ['Vues cumulées',fmtNum(totV),'toutes plateformes'],
     ['Likes',fmtNum(totL),''],
     ['Commentaires',fmtNum(totC),''],
-    ['Créateurs actifs',creators,'ont publié'],
     ['Engagement moyen',avgEng.toFixed(1)+'%','(likes+comm)/vues'],
-  ].map(k=>`<div class="kpi"><div class="lab">${k[0]}</div><div class="val">${k[1]}</div><div class="sub">${k[2]||''}</div></div>`).join('');
+  ];
+  $('#perfKpis').innerHTML=perf.map(k=>`<div class="kpi"><div class="lab">${k[0]}</div><div class="val">${k[1]}</div><div class="sub">${k[2]||''}</div></div>`).join('');
+  if(!window._kpiAnimated){window._kpiAnimated=true;animateVals();}
 
   const byCity=CITIES.map(c=>({c,n:data.filter(r=>r.city===c).length}));
   const maxC=Math.max(1,...byCity.map(x=>x.n));
-  $('#cityBars').innerHTML=byCity.map(x=>`<div class="cityrow"><span class="nm">${x.c}</span><span class="track"><span class="fill" style="width:${x.n/maxC*100}%"></span></span><span class="ct">${x.n}</span></div>`).join('');
+  $('#cityBars').innerHTML=byCity.map(x=>`<div class="cityrow"><span class="nm">${x.c}</span><span class="track"><span class="fill" data-w="${x.n/maxC*100}"></span></span><span class="ct">${x.n}</span></div>`).join('');
+  // animate bar widths after paint
+  requestAnimationFrame(()=>document.querySelectorAll('.fill[data-w]').forEach(el=>{el.style.width=el.dataset.w+'%';}));
 
   const fmts=["Reel","Story","Post","TikTok","Autre"];
   const byF=fmts.map(f=>({f,n:data.filter(r=>r.fmt===f).length})).filter(x=>x.n>0);
   const maxF=Math.max(1,...byF.map(x=>x.n));
-  $('#fmtBars').innerHTML=(byF.length?byF:[{f:'—',n:0}]).map(x=>`<div class="cityrow"><span class="nm">${x.f}</span><span class="track"><span class="fill" style="width:${x.n/maxF*100}%"></span></span><span class="ct">${x.n}</span></div>`).join('');
+  $('#fmtBars').innerHTML=(byF.length?byF:[{f:'-',n:0}]).map(x=>`<div class="cityrow"><span class="nm">${x.f}</span><span class="track"><span class="fill" data-w="${x.n/maxF*100}"></span></span><span class="ct">${x.n}</span></div>`).join('');
 
   if(!rows.length){$('#rows').innerHTML=`<tr><td colspan="11" class="empty">Aucun contenu pour l'instant. Clique sur « + Ajouter un contenu ».</td></tr>`;return;}
   $('#rows').innerHTML=rows.map(r=>{
     const e=engag(r);const ph=r.photos||[];
-    const thumbs=ph.length?`<div class="thumbs">${ph.slice(0,3).map((src,i)=>`<img src="${src}" data-full="${src}" alt="preuve">`).join('')}${ph.length>3?`<span class="more" data-first="${esc(ph[3])}">+${ph.length-3}</span>`:''}</div>`:'<span style="color:var(--grey)">—</span>';
+    const thumbs=ph.length?`<div class="thumbs">${ph.slice(0,3).map((src,i)=>`<img src="${src}" data-full="${src}" alt="preuve">`).join('')}${ph.length>3?`<span class="more" data-first="${esc(ph[3])}">+${ph.length-3}</span>`:''}</div>`:'<span style="color:var(--grey)">-</span>';
     return `<tr>
       <td><b>${esc(r.name)}</b>${r.venue?`<br><span style="font-size:11px;color:var(--grey)">${esc(r.venue)}</span>`:''}</td>
       <td class="hide-sm city">${r.city||''}</td>
-      <td><span class="pill ${FMT_CLASS[r.fmt]||'fmt-autre'}">${r.fmt||'—'}</span></td>
-      <td class="num">${r.views?fmtNum(r.views):'—'}</td>
-      <td class="num">${r.likes?fmtNum(r.likes):'—'}</td>
-      <td class="num">${r.comm?fmtNum(r.comm):'—'}</td>
-      <td class="num">${e!=null?e.toFixed(1)+'%':'—'}</td>
+      <td><span class="pill ${FMT_CLASS[r.fmt]||'fmt-autre'}">${r.fmt||'-'}</span></td>
+      <td class="num perf-col">${r.views?fmtNum(r.views):'-'}</td>
+      <td class="num perf-col">${r.likes?fmtNum(r.likes):'-'}</td>
+      <td class="num perf-col">${r.comm?fmtNum(r.comm):'-'}</td>
+      <td class="num perf-col">${e!=null?e.toFixed(1)+'%':'-'}</td>
       <td>${thumbs}</td>
-      <td class="hide-sm">${r.date?String(r.date).split('-').reverse().join('/'):'—'}</td>
-      <td>${r.link?`<a class="lnk" href="${esc(r.link)}" target="_blank" rel="noopener">voir ↗</a>`:'—'}</td>
+      <td class="hide-sm">${r.date?String(r.date).split('-').reverse().join('/'):'-'}</td>
+      <td>${r.link?`<a class="lnk" href="${esc(r.link)}" target="_blank" rel="noopener">voir ↗</a>`:'-'}</td>
       <td><button class="del" data-id="${r.id}" title="Supprimer">🗑</button></td>
     </tr>`;}).join('');
 }
@@ -207,6 +217,7 @@ $('#lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')$('#ligh
 
 /* ---------- Filters + export ---------- */
 $('#fCity').onchange=render;$('#fFmt').onchange=render;
+$('#perfToggle').onclick=togglePerf;
 $('#exportBtn').onclick=()=>{
   const head=['Créateur','Ville','Format','Vues','Likes','Commentaires','Engagement %','Date','Lieu','Lien','Nb preuves'];
   const lines=[head.join(',')].concat(data.map(r=>{const e=engag(r);
@@ -217,4 +228,45 @@ $('#exportBtn').onclick=()=>{
 };
 
 /* ---------- Go ---------- */
+/* ---------- Count-up animation (waouw effect) ---------- */
+function animateVals(){
+  document.querySelectorAll('.kpi .val').forEach(el=>{
+    const raw=el.textContent.trim();
+    const m=raw.match(/^([\d.,]+)(k)?(%)?$/);
+    if(!m)return;
+    const target=parseFloat(m[1].replace(',','.'));const suffix=(m[2]||'')+(m[3]||'');
+    if(isNaN(target)||target===0)return;
+    const dur=1000, t0=performance.now();
+    const dec=(m[3]?1:0);
+    function step(now){
+      const p=Math.min(1,(now-t0)/dur);
+      const eased=1-Math.pow(1-p,3);
+      const cur=target*eased;
+      el.textContent=(dec?cur.toFixed(1):Math.round(cur))+suffix;
+      if(p<1)requestAnimationFrame(step);else el.textContent=raw;
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+/* ---------- Toggle performances ---------- */
+let perfOpen=false;
+function togglePerf(){
+  perfOpen=!perfOpen;
+  const wrap=$('#perfSection'), btn=$('#perfToggle'), table=document.querySelector('table');
+  wrap.style.display=perfOpen?'block':'none';
+  btn.innerHTML=perfOpen?'Masquer les performances ▲':'Voir les performances ▼';
+  if(table)table.classList.toggle('show-perf',perfOpen);
+  if(perfOpen){
+    // animate perf bars/counts when revealed
+    document.querySelectorAll('#perfKpis .val').forEach(el=>{
+      const raw=el.textContent.trim();const m=raw.match(/^([\d.,]+)(k)?(%)?$/);
+      if(!m)return;const target=parseFloat(m[1].replace(',','.'));const suffix=(m[2]||'')+(m[3]||'');
+      if(isNaN(target)||target===0)return;const dur=800,t0=performance.now(),dec=(m[3]?1:0);
+      (function step(now){const p=Math.min(1,(now-t0)/dur);const c=target*(1-Math.pow(1-p,3));
+        el.textContent=(dec?c.toFixed(1):Math.round(c))+suffix;if(p<1)requestAnimationFrame(step);else el.textContent=raw;})(t0);
+    });
+  }
+}
+
 initSupabase();
