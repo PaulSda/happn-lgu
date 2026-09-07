@@ -1,7 +1,26 @@
 /* ===========================================================
    happn x LGU - Suivi des contenus
-   Base partagée temps réel (Supabase) + captures compressées
    =========================================================== */
+
+/* ---- Logos + intro sparkles ---- */
+(function initBrand(){
+  const H=window.LOGO_HAPPN||'', L=window.LOGO_LGU||'';
+  const set=(id,src)=>{const el=document.getElementById(id);if(el)el.src=src;};
+  set('spHappn',H);set('spLgu',L);set('hHappn',H);set('hLgu',L);set('fHappn',H);set('fLgu',L);
+  // sparkles burst
+  const box=document.getElementById('sparkles');
+  if(box){
+    for(let i=0;i<28;i++){
+      const s=document.createElement('i');
+      s.style.left=Math.random()*100+'%';
+      s.style.top=Math.random()*100+'%';
+      s.style.animationDelay=(1+Math.random()*1.2)+'s';
+      const sz=3+Math.random()*6;s.style.width=sz+'px';s.style.height=sz+'px';
+      if(Math.random()>.5)s.style.background='#F2E94B';
+      box.appendChild(s);
+    }
+  }
+})();
 
 const CITIES=["Paris","Lille","Lyon","Marseille","Bordeaux"];
 const FMT_CLASS={Reel:"fmt-reel",Story:"fmt-story",Post:"fmt-post",TikTok:"fmt-tiktok",Autre:"fmt-autre"};
