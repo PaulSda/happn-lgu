@@ -124,10 +124,11 @@ function render(){
   $('#fmtBars').innerHTML=(byF.length?byF:[{f:'-',n:0}]).map(x=>`<div class="cityrow"><span class="nm">${x.f}</span><span class="track"><span class="fill" data-w="${x.n/maxF*100}"></span></span><span class="ct">${x.n}</span></div>`).join('');
 
   if(!rows.length){$('#rows').innerHTML=`<tr><td colspan="11" class="empty">Aucun contenu pour l'instant. Clique sur « + Ajouter un contenu ».</td></tr>`;return;}
-  $('#rows').innerHTML=rows.map(r=>{
+  $('#rows').innerHTML=rows.map((r,idx)=>{
     const e=engag(r);const ph=r.photos||[];
+    const isNew=(data.length>_rowCount && idx===0);
     const thumbs=ph.length?`<div class="thumbs">${ph.slice(0,3).map((src,i)=>`<img src="${src}" data-full="${src}" alt="preuve">`).join('')}${ph.length>3?`<span class="more" data-first="${esc(ph[3])}">+${ph.length-3}</span>`:''}</div>`:'<span style="color:var(--grey)">-</span>';
-    return `<tr>
+    return `<tr class="${isNew?'new-row':''}">
       <td><b>${esc(r.name)}</b>${r.venue?`<br><span style="font-size:11px;color:var(--grey)">${esc(r.venue)}</span>`:''}</td>
       <td class="hide-sm city">${r.city||''}</td>
       <td><span class="pill ${FMT_CLASS[r.fmt]||'fmt-autre'}">${r.fmt||'-'}</span></td>
@@ -140,6 +141,7 @@ function render(){
       <td>${r.link?`<a class="lnk" href="${esc(r.link)}" target="_blank" rel="noopener">voir ↗</a>`:'-'}</td>
       <td><button class="del" data-id="${r.id}" title="Supprimer">🗑</button></td>
     </tr>`;}).join('');
+  _rowCount=data.length;
 }
 
 /* ---------- Image compression ---------- */
@@ -202,11 +204,11 @@ $('#saveBtn').onclick=async(e)=>{
       photos:rec.photos
     }]);
     if(error){alert("Erreur d'enregistrement : "+error.message);e.preventDefault();return;}
-    // realtime will refresh; also refresh now for snappiness
+    burstConfetti();
     fetchAll();
   }else{
     rec.id=Date.now()+''+Math.floor(Math.random()*999);
-    data.unshift(rec);saveLocal();render();
+    data.unshift(rec);saveLocal();burstConfetti();render();
   }
 };
 
@@ -287,5 +289,31 @@ function togglePerf(){
     });
   }
 }
+
+/* ---------- Effets waouw à l'usage ---------- */
+// ripple sur boutons primaires
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('button.primary');if(!btn)return;
+  const r=document.createElement('span');r.className='ripple';
+  const rect=btn.getBoundingClientRect();const d=Math.max(rect.width,rect.height);
+  r.style.width=r.style.height=d+'px';
+  r.style.left=(e.clientX-rect.left-d/2)+'px';r.style.top=(e.clientY-rect.top-d/2)+'px';
+  btn.appendChild(r);setTimeout(()=>r.remove(),650);
+});
+// confettis
+function burstConfetti(){
+  const box=document.getElementById('confetti');if(!box)return;
+  const colors=['#C77DEE','#F2E94B','#8A4FB8','#E3A9F5','#42C98A'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('i');
+    c.style.left=Math.random()*100+'%';
+    c.style.background=colors[i%colors.length];
+    c.style.animation=`drop ${1.8+Math.random()*1.4}s ease-in ${Math.random()*.4}s forwards`;
+    c.style.transform=`rotate(${Math.random()*360}deg)`;
+    if(Math.random()>.5)c.style.borderRadius='50%';
+    box.appendChild(c);setTimeout(()=>c.remove(),3600);
+  }
+}
+let _rowCount=0;
 
 initSupabase();
