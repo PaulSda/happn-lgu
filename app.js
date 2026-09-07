@@ -114,14 +114,12 @@ function render(){
 
   const byCity=CITIES.map(c=>({c,n:data.filter(r=>r.city===c).length}));
   const maxC=Math.max(1,...byCity.map(x=>x.n));
-  $('#cityBars').innerHTML=byCity.map(x=>`<div class="cityrow"><span class="nm">${x.c}</span><span class="track"><span class="fill" data-w="${x.n/maxC*100}"></span></span><span class="ct">${x.n}</span></div>`).join('');
-  // animate bar widths after paint
-  requestAnimationFrame(()=>document.querySelectorAll('.fill[data-w]').forEach(el=>{el.style.width=el.dataset.w+'%';}));
+  $('#cityBars').innerHTML=byCity.map(x=>{const w=Math.round(x.n/maxC*100);return `<div class="cityrow"><span class="nm">${x.c}</span><span class="track"><span class="fill" style="width:${w}%"></span></span><span class="ct">${x.n}</span></div>`;}).join('');
 
   const fmts=["Reel","Story","Post","TikTok","Autre"];
   const byF=fmts.map(f=>({f,n:data.filter(r=>r.fmt===f).length})).filter(x=>x.n>0);
   const maxF=Math.max(1,...byF.map(x=>x.n));
-  $('#fmtBars').innerHTML=(byF.length?byF:[{f:'-',n:0}]).map(x=>`<div class="cityrow"><span class="nm">${x.f}</span><span class="track"><span class="fill" data-w="${x.n/maxF*100}"></span></span><span class="ct">${x.n}</span></div>`).join('');
+  $('#fmtBars').innerHTML=(byF.length?byF:[{f:'-',n:0}]).map(x=>{const w=Math.round(x.n/maxF*100);return `<div class="cityrow"><span class="nm">${x.f}</span><span class="track"><span class="fill" style="width:${w}%"></span></span><span class="ct">${x.n}</span></div>`;}).join('');
 
   if(!rows.length){$('#rows').innerHTML=`<tr><td colspan="11" class="empty">Aucun contenu pour l'instant. Clique sur « + Ajouter un contenu ».</td></tr>`;return;}
   $('#rows').innerHTML=rows.map((r,idx)=>{
