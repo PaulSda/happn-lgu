@@ -19,11 +19,11 @@
   body{font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
     color:var(--ink);min-height:100vh;overflow-x:hidden;background:#faf5fe;position:relative}
   .aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;background:linear-gradient(160deg,#FBF4FE,#F3E4FC 60%,#FBEFF6)}
-  .aurora span{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:float 18s ease-in-out infinite}
+  .aurora span{position:absolute;border-radius:50%;filter:blur(70px);opacity:.6;animation:float 14s ease-in-out infinite}
   .aurora .a1{width:520px;height:520px;background:#E3A9F5;top:-140px;left:-100px}
-  .aurora .a2{width:460px;height:460px;background:#F5D76E;top:10%;right:-120px;animation-delay:-4s;opacity:.35}
-  .aurora .a3{width:600px;height:600px;background:#C77DEE;bottom:-220px;left:30%;animation-delay:-9s;opacity:.4}
-  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.08)}66%{transform:translate(-30px,25px) scale(.95)}}
+  .aurora .a2{width:460px;height:460px;background:#F5D76E;top:10%;right:-120px;animation-delay:-4s;opacity:.4}
+  .aurora .a3{width:600px;height:600px;background:#C77DEE;bottom:-220px;left:30%;animation-delay:-9s;opacity:.45}
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(60px,-40px) scale(1.12)}50%{transform:translate(-40px,30px) scale(.92)}75%{transform:translate(30px,50px) scale(1.05)}}
   .wrap{max-width:1200px;margin:0 auto;padding:0 22px}
 
   /* ===== SPLASH cinématographique ===== */
@@ -156,13 +156,49 @@
   /* colonnes de performance masquées par défaut */
   th.perf-col,td.perf-col{display:none}
   table.show-perf th.perf-col,table.show-perf td.perf-col{display:table-cell}
-  footer{text-align:center;color:var(--grey);font-size:11px;padding:30px 0 10px;opacity:.7}
+  footer{text-align:center;padding:34px 0 24px;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .foot-badge{background:var(--ink);color:#fff;font-weight:600;font-size:13px;padding:11px 20px;border-radius:22px;
+    box-shadow:0 8px 24px rgba(26,19,32,.25);animation:floaty 4s ease-in-out infinite}
+  .foot-badge b{color:var(--yellow)}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .foot-logos{color:var(--grey);font-size:11px;opacity:.7;display:flex;align-items:center;gap:6px;justify-content:center}
+  .foot-logos img{height:15px;vertical-align:middle}
+  .foot-logos #fHappn{border-radius:4px}
+
+  /* ===== Animations d'usage waouw ===== */
+  /* KPI cascade + shine */
+  .kpi{opacity:0;transform:translateY(24px) scale(.96);animation:kpiIn .6s cubic-bezier(.2,.9,.3,1.3) forwards}
+  .kpi:nth-child(1){animation-delay:.05s}.kpi:nth-child(2){animation-delay:.15s}
+  .kpi:nth-child(3){animation-delay:.25s}.kpi:nth-child(4){animation-delay:.35s}
+  .kpi:nth-child(5){animation-delay:.45s}.kpi:nth-child(6){animation-delay:.55s}
+  @keyframes kpiIn{to{opacity:1;transform:none}}
+  .kpi::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.6),transparent);
+    transform:skewX(-20deg);animation:shine 4.5s ease-in-out infinite;pointer-events:none}
+  @keyframes shine{0%,55%{left:-120%}70%{left:130%}100%{left:130%}}
+  .kpi:hover{transform:translateY(-6px) scale(1.02)}
+  /* boutons: effet vague au clic */
+  button.primary{position:relative;overflow:hidden}
+  button.primary .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);
+    transform:scale(0);animation:ripple .6s ease-out;pointer-events:none}
+  @keyframes ripple{to{transform:scale(4);opacity:0}}
+  /* nouvelle ligne de tableau qui s'illumine */
+  @keyframes rowGlow{0%{background:#F6D96E}60%{background:#FBEFC9}100%{background:transparent}}
+  tbody tr.new-row{animation:rowGlow 1.6s ease-out}
+  /* confetti burst */
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
+  #confetti i{position:absolute;width:9px;height:14px;top:-20px;opacity:0}
+  @keyframes drop{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(105vh) rotate(720deg)}}
+  /* badge de connexion pop */
+  .status{animation:statusPop .5s ease}
+  @keyframes statusPop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
   footer .logo-happn{font-size:13px;color:var(--lilac-deep)}
   @media(max-width:720px){.split{grid-template-columns:1fr}.dbody{grid-template-columns:1fr}.dbody .full{grid-column:1}h1{font-size:21px}.hide-sm{display:none}.hright{align-items:flex-start}}
 </style>
 </head>
 <body>
 <div class="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+<div id="confetti"></div>
 
 <div id="splash">
   <div class="splash-inner">
@@ -191,7 +227,6 @@
       </div>
     </div>
     <div class="hright reveal d1">
-      <div class="badge">Lancement <b>04.09.2026</b> · offres jusqu'au <b>31.12.2026</b></div>
       <span class="status off" id="connStatus"><span class="dot-live"></span>Connexion...</span>
     </div>
   </div>
@@ -237,7 +272,8 @@
   <p class="note" id="savenote"></p>
 
   <footer>
-    <img src="" id="fHappn" style="height:16px;vertical-align:middle;border-radius:4px"> ✕ <img src="" id="fLgu" style="height:15px;vertical-align:middle"> · Le Booster de Date
+    <div class="foot-badge">Lancement <b>04.09.2026</b> · offres jusqu'au <b>31.12.2026</b></div>
+    <div class="foot-logos"><img src="" id="fHappn"> ✕ <img src="" id="fLgu"> · Le Booster de Date</div>
   </footer>
 </div>
 
