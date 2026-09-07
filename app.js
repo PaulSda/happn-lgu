@@ -139,7 +139,7 @@ function render(){
       <td>${thumbs}</td>
       <td class="hide-sm">${r.date?String(r.date).split('-').reverse().join('/'):'-'}</td>
       <td>${r.link?`<a class="lnk" href="${esc(r.link)}" target="_blank" rel="noopener">voir ↗</a>`:'-'}</td>
-      <td><button class="del" data-id="${r.id}" title="Supprimer">🗑</button></td>
+      <td style="white-space:nowrap"><button class="edit" data-id="${r.id}" title="Modifier">✏️</button><button class="del" data-id="${r.id}" title="Supprimer">🗑</button></td>
     </tr>`;}).join('');
   _rowCount=data.length;
 }
@@ -173,10 +173,13 @@ function renderPreview(){
 }
 
 /* ---------- Modal ---------- */
+let editId=null;
 $('#addBtn').onclick=()=>{
-  pending=[];renderPreview();
+  editId=null;pending=[];renderPreview();
   ['i_name','i_views','i_likes','i_comm','i_link','i_venue','i_date'].forEach(k=>$('#'+k).value='');
   $('#i_city').value='Paris';$('#i_fmt').value='Reel';
+  $('#dlgTitle').textContent='Ajouter un contenu';
+  $('#saveBtn').textContent='Enregistrer';
   $('#dlg').showModal();
 };
 $('#drop').onclick=()=>$('#i_files').click();
@@ -186,30 +189,57 @@ $('#drop').addEventListener('dragleave',()=>$('#drop').style.background='');
 $('#drop').addEventListener('drop',e=>{e.preventDefault();$('#drop').style.background='';handleFiles(e.dataTransfer.files);});
 $('#preview').addEventListener('click',e=>{const b=e.target.closest('.rm');if(b){pending.splice(+b.dataset.i,1);renderPreview();}});
 
+/* ---------- Edit : ouvrir la fenêtre pré-remplie ---------- */
+$('#rows').addEventListener('click',e=>{
+  const b=e.target.closest('.edit');if(!b)return;
+  const r=data.find(x=>String(x.id)===String(b.dataset.id));if(!r)return;
+  editId=r.id;
+  $('#i_name').value=r.name||'';
+  $('#i_city').value=r.city||'Paris';
+  $('#i_fmt').value=r.fmt||'Reel';
+  $('#i_date').value=r.date||'';
+  $('#i_views').value=r.views!=null?r.views:'';
+  $('#i_likes').value=r.likes!=null?r.likes:'';
+  $('#i_comm').value=r.comm!=null?r.comm:'';
+  $('#i_venue').value=r.venue||'';
+  $('#i_link').value=r.link||'';
+  pending=(r.photos||[]).slice();renderPreview();
+  $('#dlgTitle').textContent='Modifier le contenu';
+  $('#saveBtn').textContent='Enregistrer les modifications';
+  $('#dlg').showModal();
+});
+
 $('#saveBtn').onclick=async(e)=>{
   const name=$('#i_name').value.trim();
   if(!name){e.preventDefault();$('#i_name').focus();return;}
-  const rec={
-    name,city:$('#i_city').value,fmt:$('#i_fmt').value,date:$('#i_date').value||null,
+  const payload={
+    name,city:$('#i_city').value,format:$('#i_fmt').value,pub_date:$('#i_date').value||null,
     views:$('#i_views').value?+$('#i_views').value:null,
     likes:$('#i_likes').value?+$('#i_likes').value:null,
-    comm:$('#i_comm').value?+$('#i_comm').value:null,
+    comments:$('#i_comm').value?+$('#i_comm').value:null,
     link:$('#i_link').value.trim()||null,venue:$('#i_venue').value.trim()||null,
     photos:pending.slice()
   };
   if(LIVE&&sb){
-    const {error}=await sb.from('contents').insert([{
-      name:rec.name,city:rec.city,format:rec.fmt,pub_date:rec.date,
-      views:rec.views,likes:rec.likes,comments:rec.comm,link:rec.link,venue:rec.venue,
-      photos:rec.photos
-    }]);
-    if(error){alert("Erreur d'enregistrement : "+error.message);e.preventDefault();return;}
-    burstConfetti();
-    fetchAll();
+    if(editId){
+      const {error}=await sb.from('contents').update(payload).eq('id',editId);
+      if(error){alert("Erreur de modification : "+error.message);e.preventDefault();return;}
+      fetchAll();
+    }else{
+      const {error}=await sb.from('contents').insert([payload]);
+      if(error){alert("Erreur d'enregistrement : "+error.message);e.preventDefault();return;}
+      burstConfetti();fetchAll();
+    }
   }else{
-    rec.id=Date.now()+''+Math.floor(Math.random()*999);
-    data.unshift(rec);saveLocal();burstConfetti();render();
+    const local={id:editId||Date.now()+''+Math.floor(Math.random()*999),
+      name,city:payload.city,fmt:$('#i_fmt').value,date:payload.pub_date,
+      views:payload.views,likes:payload.likes,comm:payload.comments,
+      link:payload.link,venue:payload.venue,photos:payload.photos};
+    if(editId){data=data.map(r=>String(r.id)===String(editId)?local:r);}
+    else{data.unshift(local);burstConfetti();}
+    saveLocal();render();
   }
+  editId=null;
 };
 
 /* ---------- Delete ---------- */
