@@ -94,8 +94,10 @@
   .card h3{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--grey);margin-bottom:16px;font-weight:700}
   .cityrow{display:flex;align-items:center;gap:12px;margin-bottom:11px}
   .cityrow .nm{width:80px;font-weight:600;font-size:13px}
-  .track{flex:1;height:18px;background:var(--lilac-lt);border-radius:9px;overflow:hidden}
-  .fill{height:100%;background:linear-gradient(90deg,var(--lilac-dk),var(--lilac-glow));border-radius:9px;width:0;transition:width 1s cubic-bezier(.2,.9,.3,1)}
+  .track{flex:1;height:18px;background:var(--lilac-lt);border-radius:9px;overflow:hidden;display:block}
+  .fill{display:block;height:100%;background:linear-gradient(90deg,var(--lilac-dk),var(--lilac-glow));border-radius:9px;
+    transform-origin:left center;animation:barGrow .9s cubic-bezier(.2,.9,.3,1)}
+  @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
   .cityrow .ct{width:36px;text-align:right;font-weight:700;font-size:13px;color:var(--lilac-deep)}
   .bar{display:flex;gap:11px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
   .bar h2{font-size:19px;font-weight:800;margin-right:auto;letter-spacing:-.3px}
