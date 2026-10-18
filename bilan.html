@@ -1,11 +1,11 @@
-<title>Le Booster de Date — Bilan</title>
+<title>Le Booster de Date - Bilan</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   /* ========================================================
-     Layout : reporting narratif vertical — sections pleine
+     Layout : reporting narratif vertical - sections pleine
      largeur sur fond aurora, cartes en verre, scroll-reveal.
      Palette & typo reprises de l'identité happn × LGU.
      ======================================================== */
@@ -185,6 +185,26 @@
   .chanbox .de{font-size:12.5px;color:var(--grey);margin-top:5px;line-height:1.5}
   .chanbox .ic{position:absolute;top:18px;right:20px;font-size:22px;opacity:.5}
 
+  /* performances : garanti vs obtenu */
+  .perf{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .perfcard{background:var(--card);backdrop-filter:blur(12px);border-radius:20px;padding:22px;border:1px solid var(--card-brd);box-shadow:var(--shadow)}
+  .perfcard .mt{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--grey);margin-bottom:16px}
+  .perfcard .pair{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+  .perfcard .col{flex:1;min-width:84px}
+  .perfcard .col .k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--grey)}
+  .perfcard .col .n{font-size:28px;font-weight:900;line-height:1.05;letter-spacing:-1px;font-variant-numeric:tabular-nums;margin-top:3px}
+  .perfcard .col.g .n{color:var(--grey)}
+  .perfcard .col.o .n{color:var(--lilac-deep)}
+  .perfcard .arrow{font-size:20px;color:var(--lilac-dk);padding-bottom:4px}
+  .perfcard .delta{margin-top:14px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;padding:6px 13px;border-radius:14px}
+  .perfcard .delta.up{background:rgba(66,201,138,.16);color:#1f8a56}
+  .perfcard .delta.down{background:rgba(226,91,138,.14);color:#c2466f}
+  .perfcard .delta.flat{background:var(--lilac-lt);color:var(--lilac-deep)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .perfcard .delta.up{background:rgba(66,201,138,.22);color:#6ee3a8}
+    :root:not([data-theme="light"]) .perfcard .delta.down{background:rgba(226,91,138,.22);color:#f3a0bf}}
+  :root[data-theme="dark"] .perfcard .delta.up{background:rgba(66,201,138,.22);color:#6ee3a8}
+  :root[data-theme="dark"] .perfcard .delta.down{background:rgba(226,91,138,.22);color:#f3a0bf}
+
   /* timeline */
   .tl{position:relative;padding-left:26px}
   .tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--lilac-dk),var(--lilac));border-radius:2px}
@@ -281,7 +301,7 @@
   </div>
   <div class="eyebrow reveal in s1">📍 5 villes · Paris · Lille · Lyon · Marseille · Bordeaux</div>
   <h1 class="reveal in s1">Le Booster de Date,<br><em>en relais.</em></h1>
-  <p class="lede reveal in s2">Le bilan de la collaboration <b>happn × Le Guide Ultime</b>. Des boosters à collectionner, des offres en duo à vivre en date, et une campagne relayée ville par ville par les créateurs, les médias et nos propres canaux.</p>
+  <p class="lede reveal in s2">Voilà ce qu'on a fait ensemble, <b>happn × Le Guide Ultime</b>. Des boosters à collectionner, des offres en duo à vivre à deux, et une campagne qui a tourné dans les 5 villes grâce aux créateurs, aux médias et à nos propres comptes. On te montre tout.</p>
   <div class="hero-badge reveal in s3">Lancement <b>04.09.2026</b> · offres jusqu'au <b>31.12.2026</b></div>
   <div class="scrollcue reveal in s4"></div>
 </header>
@@ -290,43 +310,80 @@
 <section class="wrap" id="sec-relais">
   <div class="shead reveal">
     <span class="no">01</span>
-    <h2>Les retombées, en relais</h2>
+    <h2>Et côté relai ?</h2>
     <span class="tag" id="liveWrap"><span class="livebar" id="liveBar"><span class="dot-live"></span>Données en direct</span></span>
   </div>
   <div class="kpis">
     <div class="kpi accent reveal">
       <div class="val" data-count="29" id="kRelais">0</div>
       <div class="lab">Relais publiés</div>
-      <div class="sub">Stories, reels & posts qui ont parlé du Booster de Date</div>
+      <div class="sub">Des stories, des reels, des posts qui ont parlé du Booster de Date</div>
     </div>
     <div class="kpi hero-k reveal s1">
       <div class="val" data-count="24" id="kAccounts">0</div>
-      <div class="lab">Comptes relayeurs</div>
-      <div class="sub">Créateurs, médias partenaires & canaux owned</div>
+      <div class="lab">Comptes qui en ont parlé</div>
+      <div class="sub">Créateurs, médias et nos propres comptes</div>
     </div>
     <div class="kpi hero-k reveal s2">
       <div class="val" data-count="5" data-suffix="/5" id="kCities">0</div>
       <div class="lab">Villes couvertes</div>
-      <div class="sub">Chaque ville de l'opération a eu ses relais</div>
+      <div class="sub">On a eu du relais dans chacune des 5 villes</div>
     </div>
     <div class="kpi hero-k reveal s3">
       <div class="val" data-count="29" data-suffix="/29" id="kProof">0</div>
       <div class="lab">Relais avec preuve</div>
-      <div class="sub">Lien ou capture d'écran archivés pour chaque relais</div>
+      <div class="sub">Chaque relais a son lien ou sa capture, rien n'est au doigt mouillé</div>
     </div>
+  </div>
+</section>
+
+<!-- ============ PERFORMANCES (garanti vs obtenu) ============ -->
+<section class="wrap" id="sec-perf">
+  <div class="shead reveal"><span class="no">02</span><h2>Ce qu'on avait promis, ce qu'on a fait</h2><span class="tag">garanti → obtenu</span></div>
+  <div class="perf">
+    <div class="perfcard reveal s1" data-g="x" data-o="x">
+      <div class="mt">Vues</div>
+      <div class="pair">
+        <div class="col g"><div class="k">Garanti</div><div class="n gv">x</div></div>
+        <div class="arrow">→</div>
+        <div class="col o"><div class="k">Obtenu</div><div class="n ov">x</div></div>
+      </div>
+      <div class="delta flat dv">-</div>
+    </div>
+    <div class="perfcard reveal s2" data-g="x" data-o="x">
+      <div class="mt">Impressions</div>
+      <div class="pair">
+        <div class="col g"><div class="k">Garanti</div><div class="n gv">x</div></div>
+        <div class="arrow">→</div>
+        <div class="col o"><div class="k">Obtenu</div><div class="n ov">x</div></div>
+      </div>
+      <div class="delta flat dv">-</div>
+    </div>
+    <div class="perfcard reveal s3" data-g="x" data-o="x">
+      <div class="mt">Reach</div>
+      <div class="pair">
+        <div class="col g"><div class="k">Garanti</div><div class="n gv">x</div></div>
+        <div class="arrow">→</div>
+        <div class="col o"><div class="k">Obtenu</div><div class="n ov">x</div></div>
+      </div>
+      <div class="delta flat dv">-</div>
+    </div>
+  </div>
+  <div class="method reveal" style="margin-top:18px">
+    <b>À remplir -</b> on met les chiffres garantis et les chiffres obtenus, et l'écart en % se calcule tout seul (vert si on dépasse, rouge si on est en dessous).
   </div>
 </section>
 
 <!-- ============ RÉPARTITION ============ -->
 <section class="wrap">
-  <div class="shead reveal"><span class="no">02</span><h2>Ville par ville, format par format</h2></div>
+  <div class="shead reveal"><span class="no">03</span><h2>Dans le détail, ville par ville</h2></div>
   <div class="grid2">
     <div class="card reveal s1">
-      <h3>Relais par ville</h3>
+      <h3>Le relais ville par ville</h3>
       <div id="cityBars"></div>
     </div>
     <div class="card reveal s2">
-      <h3>Par type de contenu</h3>
+      <h3>Qu'est-ce qui a été posté</h3>
       <div id="fmtBars" style="margin-bottom:18px"></div>
       <div class="fmtsplit" id="fmtChips"></div>
     </div>
@@ -335,71 +392,71 @@
 
 <!-- ============ PAR CANAL ============ -->
 <section class="wrap">
-  <div class="shead reveal"><span class="no">03</span><h2>Qui a relayé l'opération</h2></div>
+  <div class="shead reveal"><span class="no">04</span><h2>Et qui en a parlé</h2></div>
   <div class="chan">
     <div class="chanbox reveal s1">
       <div class="ic">✨</div>
       <div class="big" data-count="23" id="cCreators">0</div>
-      <div class="ti">Créateurs · gifting</div>
-      <div class="de">Des créateurs food, lifestyle & couple ont reçu leur booster et l'ont relayé spontanément, sans rémunération.</div>
+      <div class="ti">Les créateurs</div>
+      <div class="de">Des créateurs food, lifestyle et couple. Ils ont reçu leur booster et en ont parlé d'eux-mêmes, sans qu'on les paie.</div>
     </div>
     <div class="chanbox reveal s2">
       <div class="ic">📰</div>
       <div class="big" data-count="3" id="cMedia">0</div>
-      <div class="ti">Médias partenaires</div>
-      <div class="de">Relais via Culturel Media sur Paris, Lyon et Marseille, en appui de la diffusion locale.</div>
+      <div class="ti">Les médias</div>
+      <div class="de">Culturel Media a relayé sur Paris, Lyon et Marseille, en plus des créateurs, pour taper plus large en local.</div>
     </div>
     <div class="chanbox reveal s3">
       <div class="ic">📣</div>
       <div class="big" data-count="3" id="cOwned">0</div>
-      <div class="ti">Canaux owned</div>
-      <div class="de">La vidéo de lancement sur <b>@leguideultime</b> et les relais du compte <b>happn</b> — une diffusion maîtrisée et garantie.</div>
+      <div class="ti">Nos comptes</div>
+      <div class="de">La vidéo de lancement sur <b>@leguideultime</b> et les reprises côté <b>happn</b>. Ça, c'est le relais qu'on maîtrise à 100 %.</div>
     </div>
   </div>
   <div class="method reveal" style="margin-top:18px">
-    <b>Lecture du bilan —</b> un « relais » = une prise de parole publique sur le Booster de Date (story, reel ou post). Le dispositif créateurs étant du <b>gifting</b> (booster offert, sans engagement de publication), chaque relais compté est une retombée obtenue, non un minimum garanti. Le suivi est tenu au fil de l'eau et chaque entrée est archivée avec sa preuve.
+    <b>Petit point pour bien lire -</b> un « relais », c'est une prise de parole publique sur le Booster de Date : une story, un reel ou un post. Côté créateurs, on était en <b>gifting</b> : on leur offre le booster, sans leur imposer de publier. Donc tout ce que tu vois ici, c'est de l'earned, du vrai - personne n'était obligé d'en parler, et ils l'ont fait. Et on garde la preuve de chaque relais.
   </div>
 </section>
 
 <!-- ============ LES CRÉATEURS ============ -->
 <section class="wrap">
-  <div class="shead reveal"><span class="no">04</span><h2>Les voix qui ont relayé</h2><span class="tag">créateurs & médias</span></div>
+  <div class="shead reveal"><span class="no">05</span><h2>Celles et ceux qui ont joué le jeu</h2><span class="tag">créateurs & médias</span></div>
   <div class="card reveal s1">
-    <h3>Comptes ayant publié</h3>
+    <h3>Ils ont posté</h3>
     <div class="creators" id="creatorChips"></div>
   </div>
 </section>
 
 <!-- ============ CONTEXTE / CE QUI A ÉTÉ FAIT ============ -->
 <section class="wrap">
-  <div class="shead reveal"><span class="no">05</span><h2>Le dispositif, de A à Z</h2></div>
+  <div class="shead reveal"><span class="no">06</span><h2>Ce qu'on a monté, en gros</h2></div>
   <div class="ctx reveal s1" style="margin-bottom:22px">
-    <div class="item"><div class="ic">🎴</div><h4>Un objet à collectionner</h4><p>Des <b>boosters</b> façon cartes à collectionner : 5 cartes par booster, chacune cachant un lieu et une <b>offre en duo</b> à vivre en date.</p></div>
-    <div class="item"><div class="ic">🏙️</div><h4>5 villes, 25 lieux</h4><p><b>25 lieux / offres</b> négociés et validés, soit 5 adresses par ville sur Paris, Lille, Lyon, Marseille et Bordeaux.</p></div>
-    <div class="item"><div class="ic">📦</div><h4>200 boosters produits</h4><p>Production complète des cartes et des blisters, <b>reçus fin août</b> pour un lancement calé au 4 septembre.</p></div>
-    <div class="item"><div class="ic">🎬</div><h4>Une vidéo de lancement</h4><p>Note d'intention, script et montage d'une vidéo dédiée, <b>validée et diffusée sur @leguideultime</b>.</p></div>
-    <div class="item"><div class="ic">🎁</div><h4>Un jeu concours</h4><p>Automatisation ManyChat : <b>2 gagnants par ville</b> tirés au sort, pour amplifier le lancement auprès de la communauté.</p></div>
-    <div class="item"><div class="ic">💌</div><h4>Une carte dans chaque envoi</h4><p>Chaque booster envoyé aux créateurs et aux lieux contient une carte expliquant le concept et les modalités.</p></div>
+    <div class="item"><div class="ic">🎴</div><h4>Un truc à collectionner</h4><p>Des <b>boosters</b> comme des cartes à collectionner. 5 cartes par booster, et derrière chaque carte un lieu et une <b>offre à deux</b> à aller vivre en date.</p></div>
+    <div class="item"><div class="ic">🏙️</div><h4>5 villes, 25 lieux</h4><p><b>25 lieux, 25 offres</b>, qu'on est allés chercher un par un. 5 adresses par ville, sur Paris, Lille, Lyon, Marseille et Bordeaux.</p></div>
+    <div class="item"><div class="ic">📦</div><h4>200 boosters fabriqués</h4><p>Les cartes et les blisters, produits en entier. <b>Reçus fin août</b>, pile pour lancer le 4 septembre.</p></div>
+    <div class="item"><div class="ic">🎬</div><h4>Une vidéo de lancement</h4><p>Note d'intention, script, montage. Une vidéo rien que pour l'op, <b>validée avec vous et sortie sur @leguideultime</b>.</p></div>
+    <div class="item"><div class="ic">🎁</div><h4>Un jeu concours</h4><p>Un tirage au sort via ManyChat, <b>2 gagnants par ville</b>, pour faire parler du lancement côté communauté.</p></div>
+    <div class="item"><div class="ic">💌</div><h4>Une carte dans chaque colis</h4><p>Dans chaque booster envoyé, une petite carte qui explique le concept et comment ça marche. Pas de prise de tête pour ceux qui le reçoivent.</p></div>
   </div>
   <div class="steps reveal s2">
-    <div class="step"><div class="dot">1</div><div class="tx"><h4>Direction artistique & production</h4><p>Design des cartes, covers par ville, blisters — à la <b>charte happn</b>, validé côté client.</p></div></div>
-    <div class="step"><div class="dot">2</div><div class="tx"><h4>Négociation des lieux</h4><p>Les <b>25 offres en duo</b> bouclées ville par ville avec les restaurants et adresses partenaires.</p></div></div>
-    <div class="step"><div class="dot">3</div><div class="tx"><h4>Sourcing & activation des créateurs</h4><p>Un vivier de créateurs <b>food, lifestyle & couple</b> identifié, contacté et activé en gifting dans chaque ville.</p></div></div>
-    <div class="step"><div class="dot">4</div><div class="tx"><h4>Lancement & suivi en temps réel</h4><p>Lancement le 4 septembre, puis <b>suivi des relais au fil de l'eau</b>, archivés avec preuve dans l'outil de tracking.</p></div></div>
+    <div class="step"><div class="dot">1</div><div class="tx"><h4>La créa et la prod</h4><p>Cartes, covers par ville, blisters. Le tout <b>à la charte happn</b> et validé avec vous.</p></div></div>
+    <div class="step"><div class="dot">2</div><div class="tx"><h4>Les lieux</h4><p>Les <b>25 offres à deux</b> négociées ville par ville avec les restos et les adresses.</p></div></div>
+    <div class="step"><div class="dot">3</div><div class="tx"><h4>Les créateurs</h4><p>On a cherché large - <b>food, lifestyle et couple</b> - et on les a contactés et activés en gifting dans chaque ville.</p></div></div>
+    <div class="step"><div class="dot">4</div><div class="tx"><h4>Le lancement, puis le suivi</h4><p>On a lancé le 4 septembre, et depuis on note <b>chaque relais au fil de l'eau</b>, avec sa preuve, dans l'outil.</p></div></div>
   </div>
 </section>
 
 <!-- ============ TIMELINE ============ -->
 <section class="wrap">
-  <div class="shead reveal"><span class="no">06</span><h2>Le fil de l'opération</h2></div>
+  <div class="shead reveal"><span class="no">07</span><h2>Comment ça s'est déroulé</h2></div>
   <div class="card reveal s1">
     <div class="tl">
-      <div class="ev"><div class="dt">22 juin 2026</div><div class="tx">Lancement du projet — cadrage, assets de marque & rétroplanning.</div></div>
-      <div class="ev"><div class="dt">Juin → août</div><div class="tx">Création des <b>cartes, covers & blisters</b>, puis négociation des <b>25 lieux</b>.</div></div>
-      <div class="ev"><div class="dt">Juillet → août</div><div class="tx">Sourcing créateurs : un large vivier identifié et activé dans les 5 villes.</div></div>
-      <div class="ev"><div class="dt">27–30 août</div><div class="tx">Réception des <b>cartes & blisters</b> ; envois aux créateurs et aux lieux.</div></div>
-      <div class="ev"><div class="dt">4 sept. 2026</div><div class="tx"><b>Lancement officiel</b> — vidéo @leguideultime, jeu concours, premiers relais.</div></div>
-      <div class="ev"><div class="dt">Sept. → en cours</div><div class="tx">Les relais s'enchaînent ville par ville. Offres ouvertes jusqu'au <b>31.12.2026</b>.</div></div>
+      <div class="ev"><div class="dt">22 juin 2026</div><div class="tx">On démarre : on cadre tout, on récupère vos assets de marque et on pose le rétroplanning.</div></div>
+      <div class="ev"><div class="dt">Juin → août</div><div class="tx">On crée les <b>cartes, les covers et les blisters</b>, et on va chercher les <b>25 lieux</b>.</div></div>
+      <div class="ev"><div class="dt">Juillet → août</div><div class="tx">On ratisse large côté créateurs et on les active dans les 5 villes.</div></div>
+      <div class="ev"><div class="dt">27-30 août</div><div class="tx">On reçoit les <b>cartes et les blisters</b>, et on envoie aux créateurs et aux lieux.</div></div>
+      <div class="ev"><div class="dt">4 sept. 2026</div><div class="tx"><b>On lance</b> : la vidéo sur @leguideultime, le jeu concours, et les premiers relais qui tombent.</div></div>
+      <div class="ev"><div class="dt">Sept. → aujourd'hui</div><div class="tx">Ça continue de relayer ville par ville. Et les offres restent ouvertes jusqu'au <b>31.12.2026</b>.</div></div>
     </div>
   </div>
 </section>
@@ -411,7 +468,7 @@
     <span class="x">✕</span>
     <img class="h-lgu" id="fLgu" alt="Le Guide Ultime">
   </div>
-  <div class="foot-sig">Le Booster de Date · bilan établi par Le Guide Ultime</div>
+  <div class="foot-sig">Le Booster de Date · le bilan, par Le Guide Ultime</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
@@ -508,6 +565,41 @@ function setTarget(id, val, suffix){
   if(suffix!=null) e.setAttribute('data-suffix', suffix);
 }
 
+/* ---------- Performances : garanti → obtenu + écart % ----------
+   Lit data-g / data-o sur chaque .perfcard.
+   Tant qu'une valeur = "x" (ou vide), on laisse le placeholder et pas de %. */
+function parseNum(v){
+  if(v==null) return null;
+  v=String(v).trim().toLowerCase().replace(/\s| /g,'').replace(',','.');
+  if(v===''||v==='x') return null;
+  var mult=1;
+  if(/m$/.test(v)){mult=1e6;v=v.replace(/m$/,'');}
+  else if(/k$/.test(v)){mult=1e3;v=v.replace(/k$/,'');}
+  var n=parseFloat(v);
+  return isNaN(n)?null:n*mult;
+}
+function fmtNum(n){
+  if(n==null) return 'x';
+  if(n>=1e6) return (n/1e6).toFixed(n%1e6===0?0:1).replace('.0','')+'M';
+  if(n>=1e3) return (n/1e3).toFixed(n%1e3===0?0:1).replace('.0','')+'k';
+  return String(Math.round(n));
+}
+function renderPerf(){
+  document.querySelectorAll('.perfcard').forEach(function(card){
+    var g=parseNum(card.getAttribute('data-g'));
+    var o=parseNum(card.getAttribute('data-o'));
+    var gv=card.querySelector('.gv'), ov=card.querySelector('.ov'), dv=card.querySelector('.dv');
+    if(gv) gv.textContent=fmtNum(g);
+    if(ov) ov.textContent=fmtNum(o);
+    if(!dv) return;
+    if(g==null||o==null||g===0){ dv.className='delta flat dv'; dv.textContent='-'; return; }
+    var pct=Math.round((o-g)/g*100);
+    if(pct>0){ dv.className='delta up dv'; dv.textContent='▲ +'+pct+'% vs garanti'; }
+    else if(pct<0){ dv.className='delta down dv'; dv.textContent='▼ '+pct+'% vs garanti'; }
+    else{ dv.className='delta flat dv'; dv.textContent='= objectif atteint'; }
+  });
+}
+
 /* count-up when visible */
 function countUp(el){
   if(el.dataset.done) return; el.dataset.done='1';
@@ -588,6 +680,7 @@ function fetchLive(){
 
 /* ---------- boot ---------- */
 render(SNAP);
+renderPerf();
 observe();
 // small delay so splash doesn't fight first paint; then try live
 setTimeout(fetchLive, 600);
