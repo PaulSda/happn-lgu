@@ -1,0 +1,594 @@
+<title>Le Booster de Date — Bilan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ========================================================
+     Layout : reporting narratif vertical — sections pleine
+     largeur sur fond aurora, cartes en verre, scroll-reveal.
+     Palette & typo reprises de l'identité happn × LGU.
+     ======================================================== */
+  :root{
+    --lilac:#E3A9F5; --lilac-dk:#C77DEE; --lilac-deep:#8A4FB8; --lilac-glow:#D98CF5;
+    --lilac-lt:#F6E9FC; --yellow:#F2E94B; --ink:#1A1320; --ink-soft:#3A2E44;
+    --grey:#6E6478; --white:#fff; --green:#42C98A; --border:#EFE0F9;
+    --bg:#faf5fe; --fg:#1A1320; --card:rgba(255,255,255,.78); --card-brd:rgba(255,255,255,.9);
+    --shadow:0 10px 40px rgba(138,79,184,.12);
+    --f-disp:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#140d1c; --fg:#F3E9FB; --ink:#F3E9FB; --ink-soft:#D9C8EA;
+      --grey:#A796B8; --lilac-lt:#2A1C3A; --border:#3A2A4E;
+      --card:rgba(40,26,58,.6); --card-brd:rgba(120,80,170,.28);
+      --shadow:0 14px 48px rgba(0,0,0,.45); color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#140d1c; --fg:#F3E9FB; --ink:#F3E9FB; --ink-soft:#D9C8EA;
+    --grey:#A796B8; --lilac-lt:#2A1C3A; --border:#3A2A4E;
+    --card:rgba(40,26,58,.6); --card-brd:rgba(120,80,170,.28);
+    --shadow:0 14px 48px rgba(0,0,0,.45); color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--f-disp);color:var(--fg);background:var(--bg);
+    min-height:100vh;overflow-x:hidden;position:relative;line-height:1.5}
+
+  /* fond aurora animé */
+  .aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;
+    background:linear-gradient(160deg,#FBF4FE,#F3E4FC 60%,#FBEFF6)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .aurora{background:linear-gradient(160deg,#1a1028,#120a1e 60%,#1d1020)}}
+  :root[data-theme="dark"] .aurora{background:linear-gradient(160deg,#1a1028,#120a1e 60%,#1d1020)}
+  .aurora span{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;animation:float 16s ease-in-out infinite}
+  .aurora .a1{width:520px;height:520px;background:#E3A9F5;top:-140px;left:-100px}
+  .aurora .a2{width:460px;height:460px;background:#F5D76E;top:12%;right:-120px;animation-delay:-5s;opacity:.38}
+  .aurora .a3{width:620px;height:620px;background:#C77DEE;bottom:-240px;left:28%;animation-delay:-10s;opacity:.42}
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(60px,-40px) scale(1.12)}50%{transform:translate(-40px,30px) scale(.92)}75%{transform:translate(30px,50px) scale(1.05)}}
+
+  .wrap{max-width:1080px;margin:0 auto;
+    padding-left:max(20px,env(safe-area-inset-left,0px));
+    padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+  /* ===== SPLASH cinématographique ===== */
+  #splash{position:fixed;inset:0;z-index:90;
+    background:radial-gradient(circle at 50% 40%,#D98CF5,#8A4FB8 70%,#5E2E86);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    animation:splashOut 1s cubic-bezier(.7,0,.3,1) 2.9s forwards}
+  @keyframes splashOut{to{opacity:0;visibility:hidden;transform:scale(1.18)}}
+  .splash-inner{display:flex;flex-direction:column;align-items:center;gap:26px;z-index:2;text-align:center;padding:0 20px}
+  .splash-logos{display:flex;align-items:center;gap:30px}
+  .sp-happn,.sp-lgu{height:78px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.35))}
+  .sp-happn{transform:translateX(-120px) rotate(-25deg) scale(.4);opacity:0;animation:flyIn 1s cubic-bezier(.2,.8,.25,1.2) .2s forwards}
+  .sp-lgu{border-radius:14px;transform:translateX(120px) rotate(25deg) scale(.4);opacity:0;animation:flyIn 1s cubic-bezier(.2,.8,.25,1.2) .2s forwards}
+  .sp-x{color:#fff;font-size:34px;font-weight:300;opacity:0;transform:scale(0) rotate(-180deg);animation:popX .6s cubic-bezier(.2,.9,.3,1.6) 1s forwards}
+  @keyframes flyIn{to{transform:translateX(0) rotate(0) scale(1);opacity:1}}
+  @keyframes popX{to{transform:scale(1) rotate(0);opacity:.9}}
+  .splash-title{color:#fff;font-weight:800;font-size:22px;letter-spacing:-.3px;opacity:0;transform:translateY(10px);animation:subIn .7s ease 1.3s forwards}
+  .splash-sub{color:rgba(255,255,255,.85);font-weight:600;letter-spacing:4px;text-transform:uppercase;font-size:12px;opacity:0;transform:translateY(10px);animation:subIn .7s ease 1.5s forwards}
+  @keyframes subIn{to{opacity:1;transform:translateY(0)}}
+  .splash-bar{width:200px;height:4px;border-radius:4px;background:rgba(255,255,255,.22);overflow:hidden;opacity:0;animation:subIn .5s ease 1.6s forwards}
+  .splash-bar i{display:block;height:100%;width:0;background:var(--yellow);border-radius:4px;box-shadow:0 0 12px var(--yellow);animation:load 1.2s cubic-bezier(.5,0,.2,1) 1.7s forwards}
+  @keyframes load{to{width:100%}}
+  .sparkles{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .sparkles i{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;opacity:0;animation:spark 1.7s ease-out forwards}
+  @keyframes spark{0%{opacity:0;transform:scale(0)}20%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(.2) translateY(-40px)}}
+
+  /* logos réutilisables */
+  .hlogos{display:inline-flex;align-items:center;gap:13px;background:#fff;padding:10px 16px;border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+  .h-happn{height:26px}.h-lgu{height:26px;border-radius:7px}
+  .hlogos .x{color:var(--lilac-dk);font-weight:600;font-size:16px}
+
+  /* ===== Tab switcher Suivi / Bilan ===== */
+  .tabnav{position:relative;z-index:30;display:flex;justify-content:center;padding:16px 0 0}
+  .tabnav .seg{display:inline-flex;gap:4px;background:var(--card);backdrop-filter:blur(12px);
+    border:1px solid var(--border);border-radius:999px;padding:5px;box-shadow:var(--shadow)}
+  .tabnav a{text-decoration:none;font-weight:700;font-size:13.5px;color:var(--grey);
+    padding:9px 22px;border-radius:999px;transition:.2s;display:inline-flex;align-items:center;gap:7px}
+  .tabnav a.on{background:linear-gradient(135deg,var(--lilac-dk),var(--lilac-deep));color:#fff;box-shadow:0 6px 16px rgba(138,79,184,.3)}
+  .tabnav a:not(.on):hover{color:var(--lilac-deep);background:var(--lilac-lt)}
+
+  /* ===== HERO ===== */
+  .hero{padding:30px 0 18px;margin-top:6px;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--lilac-deep);background:var(--lilac-lt);padding:7px 15px;border-radius:20px;margin:20px 0 14px}
+  .hero h1{font-size:clamp(32px,6vw,54px);font-weight:900;line-height:1.02;letter-spacing:-1.5px;text-wrap:balance;margin:6px 0;color:var(--fg)}
+  .hero h1 em{font-style:normal;color:var(--lilac-deep)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hero h1 em{color:#D98CF5}}
+  :root[data-theme="dark"] .hero h1 em{color:#D98CF5}
+  .hero .lede{color:var(--grey);font-size:clamp(15px,2.4vw,18px);font-weight:500;max-width:620px;margin:14px auto 0;text-wrap:balance}
+  .hero-badge{display:inline-flex;gap:0;margin-top:22px;background:#1A1320;color:#fff;font-weight:600;font-size:13px;padding:11px 20px;border-radius:22px;box-shadow:0 8px 24px rgba(26,19,32,.3)}
+  .hero-badge b{color:var(--yellow);margin:0 2px}
+  .scrollcue{margin:30px auto 0;width:26px;height:42px;border:2px solid var(--lilac-dk);border-radius:14px;position:relative;opacity:.65}
+  .scrollcue::before{content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;border-radius:3px;background:var(--lilac-dk);transform:translateX(-50%);animation:cue 1.6s ease-in-out infinite}
+  @keyframes cue{0%{opacity:1;top:7px}70%{opacity:0;top:20px}100%{opacity:0}}
+
+  /* sections */
+  section{padding:38px 0}
+  .shead{display:flex;align-items:baseline;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+  .shead .no{font-size:13px;font-weight:800;color:var(--lilac-dk);letter-spacing:1px}
+  .shead h2{font-size:clamp(22px,3.6vw,30px);font-weight:800;letter-spacing:-.6px;line-height:1.1}
+  .shead .tag{margin-left:auto;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--grey)}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.9,.3,1),transform .7s cubic-bezier(.2,.9,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.s1{transition-delay:.06s}.reveal.s2{transition-delay:.14s}.reveal.s3{transition-delay:.22s}.reveal.s4{transition-delay:.3s}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}
+    #splash{animation:none;display:none}.aurora span{animation:none}.scrollcue::before{animation:none}}
+
+  /* hero KPI big tiles */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:6px}
+  .kpi{background:var(--card);backdrop-filter:blur(12px);border-radius:22px;padding:24px 20px;box-shadow:var(--shadow);border:1px solid var(--card-brd);position:relative;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
+  .kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lilac-dk),var(--yellow))}
+  .kpi::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 5s ease-in-out infinite;pointer-events:none}
+  @keyframes shine{0%,55%{left:-120%}72%{left:140%}100%{left:140%}}
+  .kpi:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(138,79,184,.22)}
+  .kpi .val{font-size:clamp(40px,7vw,56px);font-weight:900;color:var(--lilac-deep);line-height:1;letter-spacing:-2px;font-variant-numeric:tabular-nums}
+  .kpi .lab{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--grey);font-weight:700;margin-top:10px}
+  .kpi .sub{font-size:12px;color:var(--grey);margin-top:5px;line-height:1.4}
+  .kpi.hero-k .val{color:var(--lilac-deep)}
+  .kpi.accent{background:linear-gradient(145deg,var(--lilac-dk),var(--lilac-deep));border:none}
+  .kpi.accent .val,.kpi.accent .lab,.kpi.accent .sub{color:#fff}
+  .kpi.accent .sub{color:rgba(255,255,255,.82)}
+  .kpi.accent::before{background:var(--yellow)}
+
+  /* mini-kpi row (secondary) */
+  .mkpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .mkpi{background:var(--card);backdrop-filter:blur(12px);border-radius:18px;padding:18px 16px;border:1px solid var(--card-brd);box-shadow:var(--shadow)}
+  .mkpi .v{font-size:30px;font-weight:800;color:var(--lilac-deep);line-height:1;font-variant-numeric:tabular-nums}
+  .mkpi .l{font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--grey);font-weight:700;margin-top:8px}
+
+  /* cards & grids */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:var(--card);backdrop-filter:blur(12px);border-radius:22px;padding:24px;border:1px solid var(--card-brd);box-shadow:var(--shadow)}
+  .card h3{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--grey);margin-bottom:18px;font-weight:700}
+
+  /* bars */
+  .row{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+  .row .nm{width:92px;font-weight:600;font-size:13.5px}
+  .track{flex:1;min-width:0;height:20px;background:var(--lilac-lt);border-radius:10px;overflow:hidden;display:block}
+  .fill{display:block;height:100%;background:linear-gradient(90deg,var(--lilac-dk),var(--lilac-glow));border-radius:10px;transform-origin:left center;transform:scaleX(0);transition:transform 1s cubic-bezier(.2,.9,.3,1)}
+  .fill.fmt{background:linear-gradient(90deg,#E8912E,#F5C04B)}
+  .in .fill{transform:scaleX(var(--sx,1))}
+  .row .ct{width:60px;text-align:right;font-weight:800;font-size:14px;color:var(--lilac-deep);font-variant-numeric:tabular-nums}
+
+  /* context list */
+  .ctx{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .ctx .item{background:var(--card);backdrop-filter:blur(12px);border-radius:18px;padding:20px;border:1px solid var(--card-brd);box-shadow:var(--shadow)}
+  .ctx .item .ic{width:40px;height:40px;border-radius:12px;background:var(--lilac-lt);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+  .ctx .item h4{font-size:15px;font-weight:800;margin-bottom:5px;letter-spacing:-.2px}
+  .ctx .item p{font-size:13px;color:var(--grey);line-height:1.5}
+  .ctx .item b{color:var(--lilac-deep)}
+
+  /* steps / "ce qui a été fait" */
+  .steps{display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--card);backdrop-filter:blur(12px);border-radius:18px;padding:18px 20px;border:1px solid var(--card-brd);box-shadow:var(--shadow)}
+  .step .dot{flex:0 0 auto;width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--lilac-dk),var(--lilac-deep));color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 14px rgba(138,79,184,.3)}
+  .step .tx{min-width:0}
+  .step h4{font-size:15.5px;font-weight:800;letter-spacing:-.2px}
+  .step p{font-size:13.5px;color:var(--grey);margin-top:3px;line-height:1.5}
+  .step b{color:var(--lilac-deep)}
+
+  /* format split pills */
+  .fmtsplit{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .fmtchip{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--card-brd);border-radius:14px;padding:11px 15px;box-shadow:var(--shadow)}
+  .fmtchip .d{width:11px;height:11px;border-radius:50%}
+  .fmtchip .n{font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+  .fmtchip .t{font-size:12.5px;color:var(--grey);font-weight:600}
+
+  /* channels breakdown */
+  .chan{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .chanbox{background:var(--card);backdrop-filter:blur(12px);border-radius:20px;padding:22px;border:1px solid var(--card-brd);box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .chanbox .big{font-size:42px;font-weight:900;color:var(--lilac-deep);line-height:1;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}
+  .chanbox .ti{font-size:14px;font-weight:800;margin-top:10px}
+  .chanbox .de{font-size:12.5px;color:var(--grey);margin-top:5px;line-height:1.5}
+  .chanbox .ic{position:absolute;top:18px;right:20px;font-size:22px;opacity:.5}
+
+  /* timeline */
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--lilac-dk),var(--lilac));border-radius:2px}
+  .tl .ev{position:relative;margin-bottom:20px}
+  .tl .ev::before{content:"";position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--lilac-dk);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--lilac)}
+  .tl .ev .dt{font-size:12px;font-weight:800;color:var(--lilac-deep);letter-spacing:.3px}
+  .tl .ev .tx{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .tl .ev .tx b{color:var(--fg)}
+
+  /* creators chips */
+  .creators{display:flex;flex-wrap:wrap;gap:9px}
+  .ch{background:var(--card);border:1px solid var(--card-brd);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:7px;transition:transform .18s ease}
+  .ch:hover{transform:translateY(-2px)}
+  .ch .cc{width:7px;height:7px;border-radius:50%;background:var(--lilac-dk)}
+  .ch .cx{font-size:11px;color:var(--grey);font-weight:700}
+
+  /* note / method */
+  .method{background:var(--lilac-lt);border:1px solid var(--border);border-radius:18px;padding:18px 22px;font-size:13px;color:var(--ink-soft);line-height:1.6}
+  .method b{color:var(--lilac-deep)}
+
+  /* live status */
+  .livebar{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:16px;background:rgba(66,201,138,.14);color:#1f8a56}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .livebar{background:rgba(66,201,138,.2);color:#6ee3a8}}
+  :root[data-theme="dark"] .livebar{background:rgba(66,201,138,.2);color:#6ee3a8}
+  .dot-live{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(66,201,138,.5)}70%{box-shadow:0 0 0 7px rgba(66,201,138,0)}100%{box-shadow:0 0 0 0 rgba(66,201,138,0)}}
+
+  footer{text-align:center;padding:40px 0 48px;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .foot-badge{background:#1A1320;color:#fff;font-weight:600;font-size:13px;padding:12px 22px;border-radius:24px;box-shadow:0 8px 24px rgba(26,19,32,.3);animation:floaty 4s ease-in-out infinite}
+  .foot-badge b{color:var(--yellow);margin:0 2px}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .foot-sig{color:var(--grey);font-size:12px}
+
+  @media(max-width:720px){
+    .grid2{grid-template-columns:1fr}
+    .hero{margin-top:22px;padding:30px 0 10px}
+    .row .nm{width:72px;font-size:13px}
+    section{padding:28px 0}
+    .shead{margin-bottom:16px;gap:8px}
+    .shead h2{font-size:22px}
+    .shead .tag{margin-left:0;flex-basis:100%}
+    .kpis{grid-template-columns:1fr 1fr;gap:12px}
+    .kpi{padding:18px 15px;border-radius:18px}
+    .kpi .val{font-size:34px;letter-spacing:-1.5px}
+    .kpi .lab{font-size:11px;margin-top:7px}
+    .kpi .sub{font-size:11px}
+    .mkpis{grid-template-columns:1fr 1fr}
+    .chan{grid-template-columns:1fr}
+    .card{padding:18px;border-radius:18px}
+    .ctx{grid-template-columns:1fr}
+    .eyebrow{font-size:10px;letter-spacing:1.2px;padding:6px 12px}
+    .hlogos{padding:9px 13px}
+    .hero-badge{font-size:12px;padding:10px 16px}
+  }
+  @media(max-width:430px){
+    .kpis{grid-template-columns:1fr}
+    .kpi .val{font-size:clamp(38px,13vw,48px)}
+    .mkpis{grid-template-columns:1fr}
+    .hero h1{font-size:clamp(28px,9vw,40px)}
+    .fmtchip{padding:9px 12px}
+    .ch{font-size:12px;padding:7px 11px}
+  }
+</style>
+
+<div class="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+
+<div id="splash" aria-hidden="true">
+  <div class="splash-inner">
+    <div class="splash-logos">
+      <img class="sp-happn" id="spHappn" alt="happn">
+      <span class="sp-x">✕</span>
+      <img class="sp-lgu" id="spLgu" alt="Le Guide Ultime">
+    </div>
+    <div class="splash-title">Le Booster de Date</div>
+    <div class="splash-sub">Bilan de campagne · Rentrée 2026</div>
+    <div class="splash-bar"><i></i></div>
+  </div>
+  <div class="sparkles" id="sparkles"></div>
+</div>
+
+<nav class="tabnav wrap">
+  <div class="seg">
+    <a href="./index.html">📋 Suivi</a>
+    <a href="./bilan.html" class="on">📊 Bilan</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero wrap">
+  <div class="hlogos reveal in">
+    <img class="h-happn" id="hHappn" alt="happn">
+    <span class="x">✕</span>
+    <img class="h-lgu" id="hLgu" alt="Le Guide Ultime">
+  </div>
+  <div class="eyebrow reveal in s1">📍 5 villes · Paris · Lille · Lyon · Marseille · Bordeaux</div>
+  <h1 class="reveal in s1">Le Booster de Date,<br><em>en relais.</em></h1>
+  <p class="lede reveal in s2">Le bilan de la collaboration <b>happn × Le Guide Ultime</b>. Des boosters à collectionner, des offres en duo à vivre en date, et une campagne relayée ville par ville par les créateurs, les médias et nos propres canaux.</p>
+  <div class="hero-badge reveal in s3">Lancement <b>04.09.2026</b> · offres jusqu'au <b>31.12.2026</b></div>
+  <div class="scrollcue reveal in s4"></div>
+</header>
+
+<!-- ============ LES RELAIS (résultat phare) ============ -->
+<section class="wrap" id="sec-relais">
+  <div class="shead reveal">
+    <span class="no">01</span>
+    <h2>Les retombées, en relais</h2>
+    <span class="tag" id="liveWrap"><span class="livebar" id="liveBar"><span class="dot-live"></span>Données en direct</span></span>
+  </div>
+  <div class="kpis">
+    <div class="kpi accent reveal">
+      <div class="val" data-count="29" id="kRelais">0</div>
+      <div class="lab">Relais publiés</div>
+      <div class="sub">Stories, reels & posts qui ont parlé du Booster de Date</div>
+    </div>
+    <div class="kpi hero-k reveal s1">
+      <div class="val" data-count="24" id="kAccounts">0</div>
+      <div class="lab">Comptes relayeurs</div>
+      <div class="sub">Créateurs, médias partenaires & canaux owned</div>
+    </div>
+    <div class="kpi hero-k reveal s2">
+      <div class="val" data-count="5" data-suffix="/5" id="kCities">0</div>
+      <div class="lab">Villes couvertes</div>
+      <div class="sub">Chaque ville de l'opération a eu ses relais</div>
+    </div>
+    <div class="kpi hero-k reveal s3">
+      <div class="val" data-count="29" data-suffix="/29" id="kProof">0</div>
+      <div class="lab">Relais avec preuve</div>
+      <div class="sub">Lien ou capture d'écran archivés pour chaque relais</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RÉPARTITION ============ -->
+<section class="wrap">
+  <div class="shead reveal"><span class="no">02</span><h2>Ville par ville, format par format</h2></div>
+  <div class="grid2">
+    <div class="card reveal s1">
+      <h3>Relais par ville</h3>
+      <div id="cityBars"></div>
+    </div>
+    <div class="card reveal s2">
+      <h3>Par type de contenu</h3>
+      <div id="fmtBars" style="margin-bottom:18px"></div>
+      <div class="fmtsplit" id="fmtChips"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAR CANAL ============ -->
+<section class="wrap">
+  <div class="shead reveal"><span class="no">03</span><h2>Qui a relayé l'opération</h2></div>
+  <div class="chan">
+    <div class="chanbox reveal s1">
+      <div class="ic">✨</div>
+      <div class="big" data-count="23" id="cCreators">0</div>
+      <div class="ti">Créateurs · gifting</div>
+      <div class="de">Des créateurs food, lifestyle & couple ont reçu leur booster et l'ont relayé spontanément, sans rémunération.</div>
+    </div>
+    <div class="chanbox reveal s2">
+      <div class="ic">📰</div>
+      <div class="big" data-count="3" id="cMedia">0</div>
+      <div class="ti">Médias partenaires</div>
+      <div class="de">Relais via Culturel Media sur Paris, Lyon et Marseille, en appui de la diffusion locale.</div>
+    </div>
+    <div class="chanbox reveal s3">
+      <div class="ic">📣</div>
+      <div class="big" data-count="3" id="cOwned">0</div>
+      <div class="ti">Canaux owned</div>
+      <div class="de">La vidéo de lancement sur <b>@leguideultime</b> et les relais du compte <b>happn</b> — une diffusion maîtrisée et garantie.</div>
+    </div>
+  </div>
+  <div class="method reveal" style="margin-top:18px">
+    <b>Lecture du bilan —</b> un « relais » = une prise de parole publique sur le Booster de Date (story, reel ou post). Le dispositif créateurs étant du <b>gifting</b> (booster offert, sans engagement de publication), chaque relais compté est une retombée obtenue, non un minimum garanti. Le suivi est tenu au fil de l'eau et chaque entrée est archivée avec sa preuve.
+  </div>
+</section>
+
+<!-- ============ LES CRÉATEURS ============ -->
+<section class="wrap">
+  <div class="shead reveal"><span class="no">04</span><h2>Les voix qui ont relayé</h2><span class="tag">créateurs & médias</span></div>
+  <div class="card reveal s1">
+    <h3>Comptes ayant publié</h3>
+    <div class="creators" id="creatorChips"></div>
+  </div>
+</section>
+
+<!-- ============ CONTEXTE / CE QUI A ÉTÉ FAIT ============ -->
+<section class="wrap">
+  <div class="shead reveal"><span class="no">05</span><h2>Le dispositif, de A à Z</h2></div>
+  <div class="ctx reveal s1" style="margin-bottom:22px">
+    <div class="item"><div class="ic">🎴</div><h4>Un objet à collectionner</h4><p>Des <b>boosters</b> façon cartes à collectionner : 5 cartes par booster, chacune cachant un lieu et une <b>offre en duo</b> à vivre en date.</p></div>
+    <div class="item"><div class="ic">🏙️</div><h4>5 villes, 25 lieux</h4><p><b>25 lieux / offres</b> négociés et validés, soit 5 adresses par ville sur Paris, Lille, Lyon, Marseille et Bordeaux.</p></div>
+    <div class="item"><div class="ic">📦</div><h4>200 boosters produits</h4><p>Production complète des cartes et des blisters, <b>reçus fin août</b> pour un lancement calé au 4 septembre.</p></div>
+    <div class="item"><div class="ic">🎬</div><h4>Une vidéo de lancement</h4><p>Note d'intention, script et montage d'une vidéo dédiée, <b>validée et diffusée sur @leguideultime</b>.</p></div>
+    <div class="item"><div class="ic">🎁</div><h4>Un jeu concours</h4><p>Automatisation ManyChat : <b>2 gagnants par ville</b> tirés au sort, pour amplifier le lancement auprès de la communauté.</p></div>
+    <div class="item"><div class="ic">💌</div><h4>Une carte dans chaque envoi</h4><p>Chaque booster envoyé aux créateurs et aux lieux contient une carte expliquant le concept et les modalités.</p></div>
+  </div>
+  <div class="steps reveal s2">
+    <div class="step"><div class="dot">1</div><div class="tx"><h4>Direction artistique & production</h4><p>Design des cartes, covers par ville, blisters — à la <b>charte happn</b>, validé côté client.</p></div></div>
+    <div class="step"><div class="dot">2</div><div class="tx"><h4>Négociation des lieux</h4><p>Les <b>25 offres en duo</b> bouclées ville par ville avec les restaurants et adresses partenaires.</p></div></div>
+    <div class="step"><div class="dot">3</div><div class="tx"><h4>Sourcing & activation des créateurs</h4><p>Un vivier de créateurs <b>food, lifestyle & couple</b> identifié, contacté et activé en gifting dans chaque ville.</p></div></div>
+    <div class="step"><div class="dot">4</div><div class="tx"><h4>Lancement & suivi en temps réel</h4><p>Lancement le 4 septembre, puis <b>suivi des relais au fil de l'eau</b>, archivés avec preuve dans l'outil de tracking.</p></div></div>
+  </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="wrap">
+  <div class="shead reveal"><span class="no">06</span><h2>Le fil de l'opération</h2></div>
+  <div class="card reveal s1">
+    <div class="tl">
+      <div class="ev"><div class="dt">22 juin 2026</div><div class="tx">Lancement du projet — cadrage, assets de marque & rétroplanning.</div></div>
+      <div class="ev"><div class="dt">Juin → août</div><div class="tx">Création des <b>cartes, covers & blisters</b>, puis négociation des <b>25 lieux</b>.</div></div>
+      <div class="ev"><div class="dt">Juillet → août</div><div class="tx">Sourcing créateurs : un large vivier identifié et activé dans les 5 villes.</div></div>
+      <div class="ev"><div class="dt">27–30 août</div><div class="tx">Réception des <b>cartes & blisters</b> ; envois aux créateurs et aux lieux.</div></div>
+      <div class="ev"><div class="dt">4 sept. 2026</div><div class="tx"><b>Lancement officiel</b> — vidéo @leguideultime, jeu concours, premiers relais.</div></div>
+      <div class="ev"><div class="dt">Sept. → en cours</div><div class="tx">Les relais s'enchaînent ville par ville. Offres ouvertes jusqu'au <b>31.12.2026</b>.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="foot-badge">Lancement <b>04.09.2026</b> · offres jusqu'au <b>31.12.2026</b></div>
+  <div class="hlogos">
+    <img class="h-happn" id="fHappn" alt="happn">
+    <span class="x">✕</span>
+    <img class="h-lgu" id="fLgu" alt="Le Guide Ultime">
+  </div>
+  <div class="foot-sig">Le Booster de Date · bilan établi par Le Guide Ultime</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<script src="./logos.js"></script>
+<script src="./config.js"></script>
+<script>
+/* ---------- logos ---------- */
+(function(){
+  var h=window.LOGO_HAPPN||'', l=window.LOGO_LGU||'';
+  ['spHappn','hHappn','fHappn'].forEach(function(id){var e=document.getElementById(id);if(e&&h)e.src=h;});
+  ['spLgu','hLgu','fLgu'].forEach(function(id){var e=document.getElementById(id);if(e&&l)e.src=l;});
+})();
+
+/* ---------- sparkles on splash ---------- */
+(function(){
+  var sp=document.getElementById('sparkles'); if(!sp) return;
+  for(var i=0;i<22;i++){var s=document.createElement('i');
+    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(0.6+Math.random()*1.4)+'s';
+    s.style.width=s.style.height=(3+Math.random()*5)+'px';sp.appendChild(s);}
+})();
+
+/* ---------- snapshot de secours (live au 18.10.2026) ----------
+   Affiché instantanément ; remplacé par les données Supabase en direct si dispo. */
+var SNAP = {
+  total:29, accounts:24, cities:5, proof:29,
+  byCity:{Paris:10, Lille:7, Bordeaux:5, Marseille:4, Lyon:3},
+  byFormat:{Story:18, Reel:8, Post:3},
+  creators:23, media:3, owned:3,
+  creatorList:[
+    {n:'maaelysryo',c:'Paris'},{n:'sorties.paris',c:'Paris'},{n:'jenniferbretagne',c:'Paris'},
+    {n:'jeanne_au_scours',c:'Paris'},{n:'fannymrtz',c:'Paris'},{n:'manon.mange',c:'Paris'},
+    {n:'foodlovers_lille',c:'Lille'},{n:'valentinebllt',c:'Lille'},{n:'lea.mcrr',c:'Lille'},
+    {n:'unmondeailleurs.blog',c:'Lille'},{n:'unmondemeilleur.blog',c:'Lille'},
+    {n:'annaloves_food',c:'Lyon'},{n:'bradley.kch',c:'Lyon'},
+    {n:'foodguidemarseille',c:'Marseille'},{n:'safaa_see',c:'Marseille'},{n:'liane.comme.tarzan',c:'Marseille'},
+    {n:'camilleinbordeaux',c:'Bordeaux'},{n:'bordeaux_pepites',c:'Bordeaux'},{n:'lafrenchfood',c:'Bordeaux'}
+  ],
+  mediaList:[{n:'Culturel Paris',c:'Paris'},{n:'Culturel Lyon',c:'Lyon'},{n:'Culturel Marseille',c:'Marseille'}],
+  ownedList:[{n:'Le Guide Ultime',c:'Paris'},{n:'happn',c:'Paris'}]
+};
+
+var CITY_ORDER=['Paris','Lille','Lyon','Marseille','Bordeaux'];
+var FMT_COLOR={Story:'#E8912E',Reel:'#C77DEE',Post:'#42C98A',TikTok:'#1A1320',Autre:'#6E6478'};
+
+/* ---------- rendu ---------- */
+function render(d){
+  // KPI counts -> set data-count targets
+  setTarget('kRelais', d.total);
+  setTarget('kAccounts', d.accounts);
+  setTarget('kProof', d.proof, '/'+d.total);
+  setTarget('cCreators', d.creators);
+  setTarget('cMedia', d.media);
+  setTarget('cOwned', d.owned);
+
+  // city bars
+  var maxCity=Math.max(1,...CITY_ORDER.map(function(c){return d.byCity[c]||0;}));
+  var cb=document.getElementById('cityBars'); cb.innerHTML='';
+  CITY_ORDER.forEach(function(c){
+    var v=d.byCity[c]||0;
+    var r=document.createElement('div'); r.className='row';
+    r.innerHTML='<div class="nm">'+c+'</div><div class="track"><span class="fill" style="--sx:'+(v/maxCity)+'"></span></div><div class="ct">'+v+'</div>';
+    cb.appendChild(r);
+  });
+
+  // format bars + chips
+  var fmts=Object.keys(d.byFormat).sort(function(a,b){return d.byFormat[b]-d.byFormat[a];});
+  var maxF=Math.max(1,...fmts.map(function(f){return d.byFormat[f];}));
+  var fb=document.getElementById('fmtBars'); fb.innerHTML='';
+  var fc=document.getElementById('fmtChips'); fc.innerHTML='';
+  fmts.forEach(function(f){
+    var v=d.byFormat[f];
+    var r=document.createElement('div'); r.className='row';
+    r.innerHTML='<div class="nm">'+f+'</div><div class="track"><span class="fill fmt" style="--sx:'+(v/maxF)+'"></span></div><div class="ct">'+v+'</div>';
+    fb.appendChild(r);
+    var chip=document.createElement('div'); chip.className='fmtchip';
+    chip.innerHTML='<span class="d" style="background:'+(FMT_COLOR[f]||'#6E6478')+'"></span><span class="n">'+v+'</span><span class="t">'+f+'</span>';
+    fc.appendChild(chip);
+  });
+
+  // creator chips (créateurs + médias)
+  var all=(d.creatorList||[]).concat(d.mediaList||[]);
+  var cc=document.getElementById('creatorChips'); cc.innerHTML='';
+  all.forEach(function(p){
+    var e=document.createElement('span'); e.className='ch';
+    e.innerHTML='<span class="cc"></span>@'+p.n.replace(/^@/,'')+' <span class="cx">'+p.c+'</span>';
+    cc.appendChild(e);
+  });
+}
+
+function setTarget(id, val, suffix){
+  var e=document.getElementById(id); if(!e) return;
+  e.setAttribute('data-count', val);
+  if(suffix!=null) e.setAttribute('data-suffix', suffix);
+}
+
+/* count-up when visible */
+function countUp(el){
+  if(el.dataset.done) return; el.dataset.done='1';
+  var target=parseInt(el.getAttribute('data-count')||'0',10);
+  var suffix=el.getAttribute('data-suffix')||'';
+  var dur=1100, t0=null;
+  function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur);
+    var e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*e)+ (p===1?suffix:'');
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ---------- scroll reveal + bar grow + count ---------- */
+function observe(){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in');
+        en.target.querySelectorAll('[data-count]').forEach(countUp);
+        if(en.target.matches('[data-count]')) countUp(en.target);
+        io.unobserve(en.target);
+      }
+    });
+  },{threshold:.2, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+}
+
+/* ---------- live fetch from Supabase ---------- */
+function fetchLive(){
+  var URL=window.SUPABASE_URL||"https://goqbbgxsnyezbudxpfdd.supabase.co",
+      KEY=window.SUPABASE_ANON_KEY||"sb_publishable_uukSLWJs3ar5xngZxl36zA_3E-22CVt";
+  if(!window.supabase||!URL||!KEY) return;
+  try{
+    var sb=window.supabase.createClient(URL,KEY);
+    sb.from('contents').select('name,city,format,link,photos').then(function(res){
+      if(res.error||!res.data||!res.data.length) return;
+      var rows=res.data;
+      var d={byCity:{},byFormat:{},creatorList:[],mediaList:[],ownedList:[]};
+      var seen={}, cityCreators={};
+      var creators=0,media=0,owned=0,proof=0;
+      rows.forEach(function(r){
+        var name=(r.name||'').trim();
+        var city=r.city||''; var fmt=r.format||'Autre';
+        d.byCity[city]=(d.byCity[city]||0)+1;
+        d.byFormat[fmt]=(d.byFormat[fmt]||0)+1;
+        var ph=r.photos; var hasPh=Array.isArray(ph)&&ph.length>0;
+        if(r.link||hasPh) proof++;
+        var isOwned=(name==='Le Guide Ultime'||name==='happn');
+        var isMedia=/^Culturel/i.test(name);
+        if(isOwned) owned++; else if(isMedia) media++; else creators++;
+        var key=name.toLowerCase();
+        if(!seen[key]){ seen[key]=1;
+          var entry={n:name,c:city};
+          if(isOwned) d.ownedList.push(entry);
+          else if(isMedia) d.mediaList.push(entry);
+          else d.creatorList.push(entry);
+        }
+      });
+      d.total=rows.length;
+      d.accounts=Object.keys(seen).length;
+      d.cities=Object.keys(d.byCity).filter(function(c){return c;}).length;
+      d.proof=proof; d.creators=creators; d.media=media; d.owned=owned;
+      // reset done flags so counts re-run with fresh targets
+      document.querySelectorAll('[data-count]').forEach(function(el){
+        delete el.dataset.done; el.textContent='0';
+      });
+      // ensure /5 suffix on cities still shown via static markup; update dynamic ids
+      setTarget('kCities', d.cities, '/5');
+      render(d);
+      // re-run count for already-visible KPIs
+      document.querySelectorAll('.reveal.in [data-count], .reveal.in[data-count]').forEach(countUp);
+      var lb=document.getElementById('liveBar');
+      if(lb) lb.innerHTML='<span class="dot-live"></span>Données en direct · maj '+new Date().toLocaleDateString('fr-FR');
+    }).catch(function(){});
+  }catch(e){}
+}
+
+/* ---------- boot ---------- */
+render(SNAP);
+observe();
+// small delay so splash doesn't fight first paint; then try live
+setTimeout(fetchLive, 600);
+</script>
