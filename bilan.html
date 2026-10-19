@@ -192,7 +192,7 @@
   .pd-ic svg{width:28px;height:28px;color:#fff}
   .ps-ic svg{width:34px;height:34px;color:#1A1320}
 
-  /* performances : impressions + reach */
+  /* performances : vues + reach */
   .perfduo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .pd-card{border-radius:24px;padding:28px 24px;position:relative;overflow:hidden;box-shadow:var(--shadow);min-width:0}
   .pd-card.impr{background:linear-gradient(145deg,var(--lilac-dk),var(--lilac-deep));color:#fff}
@@ -205,7 +205,7 @@
   .pd-card.reach .pd-lab{color:#EAFBF2}
   .pd-sub{font-size:12.5px;margin-top:8px;line-height:1.45;color:rgba(255,255,255,.82)}
 
-  /* découpage impressions */
+  /* découpage vues */
   .perfbreak{margin-top:16px;background:var(--card);backdrop-filter:blur(12px);border-radius:22px;padding:22px 24px;border:1px solid var(--card-brd);box-shadow:var(--shadow)}
   .pb-head{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--grey);font-weight:700;margin-bottom:16px}
   .pb-row{display:flex;align-items:center;gap:12px;margin-bottom:13px}
@@ -218,7 +218,24 @@
   .pb-row .fill.c-post{background:linear-gradient(90deg,#E3A9F5,#F2E94B)}
   .pb-row .ct{width:78px;text-align:right;font-weight:800;font-size:14px;color:var(--lilac-deep);font-variant-numeric:tabular-nums;flex:0 0 auto}
 
-  /* highlight vidéo LGU */
+  /* bloc vidéo LGU par plateforme */
+  .perfvid{margin-top:16px;background:linear-gradient(145deg,#FBF0A8,#F2E94B);border-radius:24px;padding:24px 26px;box-shadow:var(--shadow)}
+  .pv-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .pv-ic{width:46px;height:46px;border-radius:13px;background:rgba(26,19,32,.12);display:flex;align-items:center;justify-content:center;color:#1A1320;flex:0 0 auto}
+  .pv-ic svg{width:26px;height:26px}
+  .pv-ti{font-size:17px;font-weight:900;color:#1A1320;letter-spacing:-.3px}
+  .pv-ti b{color:#1A1320}
+  .pv-sub{font-size:13px;color:#4a3d2a;margin-top:2px}
+  .pv-sub b{color:#1A1320;font-weight:800}
+  .pv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .pv-plat{background:rgba(255,255,255,.55);border:1px solid rgba(26,19,32,.08);border-radius:16px;padding:16px 18px;backdrop-filter:blur(4px)}
+  .pv-name{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#6b6320;margin-bottom:8px}
+  .pv-v{font-size:clamp(26px,4vw,34px);font-weight:900;color:#1A1320;line-height:1;letter-spacing:-1.3px;font-variant-numeric:tabular-nums}
+  .pv-vl{font-size:11.5px;font-weight:700;color:#6b6320;text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+  .pv-r{font-size:12.5px;color:#4a3d2a;font-weight:600;margin-top:8px;padding-top:8px;border-top:1px solid rgba(26,19,32,.1)}
+  @media(max-width:720px){.pv-grid{grid-template-columns:1fr}}
+
+  /* highlight vidéo LGU (ancien, non utilisé) */
   .perfstar{margin-top:16px;display:flex;align-items:center;gap:18px;
     background:linear-gradient(145deg,#FBF0A8,#F2E94B);border-radius:22px;padding:20px 26px;box-shadow:var(--shadow)}
   .ps-ic{font-size:34px;flex:0 0 auto}
@@ -371,39 +388,58 @@
 <section class="wrap" id="sec-perf">
   <div class="shead reveal"><span class="no">02</span><h2>Et surtout, combien ça a touché de monde</h2><span class="tag">en earned, sans paid</span></div>
 
-  <!-- 2 gros chiffres : impressions + reach -->
+  <!-- 2 gros chiffres cumulés : vues + reach -->
   <div class="perfduo reveal">
     <div class="pd-card impr">
       <div class="pd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></div>
-      <div class="pd-big" data-count="391730" id="pImpr">0</div>
-      <div class="pd-lab">impressions au total</div>
-      <div class="pd-sub">le nombre de fois où le Booster de Date est passé sous les yeux de quelqu'un</div>
+      <div class="pd-big" data-count="1058730" id="pImpr">0</div>
+      <div class="pd-lab">vues au total</div>
+      <div class="pd-sub">tout ce que la campagne a généré, vidéo + relais créateurs & médias</div>
     </div>
     <div class="pd-card reach">
       <div class="pd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/><path d="M19 7.5a2.3 2.3 0 0 1 0 4M5 7.5a2.3 2.3 0 0 0 0 4"/></svg></div>
-      <div class="pd-big" data-count="145664" id="pReach">0</div>
+      <div class="pd-big" data-count="671664" id="pReach">0</div>
       <div class="pd-lab">personnes touchées (reach)</div>
-      <div class="pd-sub">le nombre de comptes uniques atteints par les reels & les posts</div>
+      <div class="pd-sub">le nombre de comptes uniques atteints sur l'ensemble de la campagne</div>
     </div>
   </div>
 
-  <!-- découpage des impressions -->
-  <div class="perfbreak reveal s1">
-    <div class="pb-head">D'où viennent les impressions</div>
+  <!-- bloc dédié : la vidéo LGU par plateforme -->
+  <div class="perfvid reveal s1">
+    <div class="pv-head">
+      <div class="pv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8.5" width="18" height="11.5" rx="1.6"/><path d="M3 8.5l2.2-3.6 3.4 1.3M8.6 6.2l3.3-3 3.4 1.3M15.3 4.5l3.3-3 2.4 1.3-1.6 3"/><path d="M3 8.5h18"/></svg></div>
+      <div>
+        <div class="pv-ti">La vidéo <b>@leguideultime</b>, notre carton</div>
+        <div class="pv-sub"><b>797 000 vues</b> et <b>630 000 personnes touchées</b>, sur trois plateformes</div>
+      </div>
+    </div>
+    <div class="pv-grid">
+      <div class="pv-plat ig">
+        <div class="pv-name">Instagram</div>
+        <div class="pv-v" data-count="133000">0</div><div class="pv-vl">vues</div>
+        <div class="pv-r">121 000 reach</div>
+      </div>
+      <div class="pv-plat tk">
+        <div class="pv-name">TikTok</div>
+        <div class="pv-v" data-count="624000">0</div><div class="pv-vl">vues</div>
+        <div class="pv-r">483 000 reach</div>
+      </div>
+      <div class="pv-plat fb">
+        <div class="pv-name">Facebook</div>
+        <div class="pv-v" data-count="40000">0</div><div class="pv-vl">vues</div>
+        <div class="pv-r">26 000 reach</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- découpage du reste (hors vidéo LGU) -->
+  <div class="perfbreak reveal s2">
+    <div class="pb-head">Et à côté, les relais créateurs & médias</div>
     <div class="pb-rows" id="pbRows"></div>
   </div>
 
-  <!-- la vidéo LGU en highlight -->
-  <div class="perfstar reveal s2">
-    <div class="ps-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8.5" width="18" height="11.5" rx="1.6"/><path d="M3 8.5l2.2-3.6 3.4 1.3M8.6 6.2l3.3-3 3.4 1.3M15.3 4.5l3.3-3 2.4 1.3-1.6 3"/><path d="M3 8.5h18"/></svg></div>
-    <div class="ps-tx">
-      <div class="ps-big" data-count="130000" id="pLGU">0</div>
-      <div class="ps-lab">rien que pour la vidéo <b>@leguideultime</b>, notre plus gros relais</div>
-    </div>
-  </div>
-
   <div class="method reveal s3" style="margin-top:18px">
-    <b>Comment on compte -</b> pour les reels et la vidéo du Guide Ultime, on prend les <b>vraies impressions</b>. Pour les posts, on les estime à partir des likes (un post touche ~20 fois son nombre de likes). Pour les stories, Instagram ne les montre pas, alors on compte <b>20 % des abonnés</b> du compte. Le reach, c'est <b>80 % des impressions</b> des reels et des posts. Et tout ça, c'est de l'earned : zéro budget paid, juste des gens qui ont eu envie d'en parler.
+    <b>Comment on compte -</b> pour la vidéo du Guide Ultime, ce sont les <b>vraies stats</b> de chaque plateforme (Insta, TikTok, Facebook). Pour les reels, les vraies vues ; pour les posts, on les estime à partir des likes ; pour les stories, on compte <b>20 % des abonnés</b> du compte. Le reach, c'est le nombre de personnes uniques touchées. Et tout ça, c'est de l'earned : zéro budget paid, juste des gens qui ont eu envie d'en parler.
   </div>
 </section>
 
@@ -598,11 +634,11 @@ function setTarget(id, val, suffix){
   if(suffix!=null) e.setAttribute('data-suffix', suffix);
 }
 
-/* ---------- Découpage des impressions (barres) ---------- */
+/* ---------- Découpage des vues (barres) ---------- */
 var IMPR_BREAK=[
   {k:'Stories', v:209650, c:'c-story'},
-  {k:'Reels',   v:138200, c:'c-reel'},
-  {k:'Posts',   v:43880,  c:'c-post'}
+  {k:'Posts',   v:43880,  c:'c-post'},
+  {k:'Reels',   v:8200,   c:'c-reel'}
 ];
 function fmtSp(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
 function renderBreak(){
